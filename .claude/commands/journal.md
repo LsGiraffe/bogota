@@ -2,7 +2,7 @@ Add a new journal entry to JOURNAL.md for today's date (use the currentDate from
 
 Follow this process:
 1. Read JOURNAL.md to find the date of the last entry — that is your cutoff.
-2. Review the full conversation history since that cutoff date to identify what was worked on, discussed, built, debugged, or learned.
+2. If SCRATCH.md exists, use it as the primary source of what happened this session. Otherwise review the full conversation history since the cutoff date.
 3. If anything is unclear or ambiguous, ask the user before writing.
 4. Draft the entry and show it to the user for review before appending it to the file. Present it under a "Draft entry" heading and ask if they want to adjust anything.
 5. Once approved, append it to JOURNAL.md just below the header block in this format:
@@ -14,6 +14,7 @@ Follow this process:
 ```
 
 Do not modify any existing entries.
+6. After successfully appending the entry, delete SCRATCH.md if it exists.
 
 ---
 

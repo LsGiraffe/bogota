@@ -4,6 +4,24 @@ Learning log for the bogota project — Rust, AI, and nand2tetris.
 
 ---
 
+## 2026-05-25
+
+### What was worked on
+
+Scaffolded the full nand2tetris module architecture in Rust: `src/gates/` with submodules
+`elementary`, `mux`, `bus`, `mux_multi`. Updated `CLAUDE.md` with global project decisions —
+pure Rust implementations, TDD throughout, `nand()` as the only primitive for stages 1–5.
+Added GitHub Actions CI (fmt + build).
+
+### Key insights
+
+Mapping nand2tetris stages to Rust modules upfront enforces the dependency flow rule from
+day one — each stage only reaches downward, mirroring how the hardware actually composes.
+
+### Next steps
+
+Implement `nand()` in `elementary.rs` — tests first.
+
 ## 2026-05-23
 
 ### What was worked on

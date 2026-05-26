@@ -5,12 +5,31 @@ A personal learning project combining three tracks:
 - **AI/LLM** — deep-diving into AI concepts and tooling
 - **nand2tetris** — building a computer from logic gates up to understand the full stack
 
-## Project layout
+## Project context
+Implementation of the nand2tetris curriculum in Rust.
 
-```
-src/         Rust source code
-JOURNAL.md   Development journal — dated entries on progress, insights, blockers
-```
+### Global decisions (apply to all stages)
+- NOT using nand2tetris HDL, simulator, or test tools
+- All chips/components implemented as pure Rust functions or structs
+- Tests written in Rust with cargo test (replaces .tst and .cmp files)
+- Truth tables and specs from nand2tetris docs translated into assert_eq! tests
+- TDD: tests first, implementation second
+- Everything in stages 1-5 builds from nand() as the only primitive
+
+### Architecture
+- One module per nand2tetris stage
+- src/gates/     ← stage 1-2  (current)
+- src/memory/    ← stage 3
+- src/cpu/       ← stage 4-5
+- src/assembler/ ← stage 6
+- src/vm/        ← stage 7-8
+- src/compiler/  ← stage 9-11
+- src/os/        ← stage 12
+- Dependencies always flow downward, never circular
+
+### Current stage
+Stage 1 — Boolean logic gates
+Within gates/: elementary.rs → mux.rs → bus.rs → mux_multi.rs
 
 ## Rust
 

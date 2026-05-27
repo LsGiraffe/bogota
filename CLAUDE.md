@@ -46,7 +46,7 @@ During each session, maintain `SCRATCH.md` at the project root as a running log:
 - Create it at the start of the session if it doesn't exist.
 - After each significant action (implementation, bug fix, key decision), append one line describing what was done.
 - Format: `- <short past-tense description>`
-- `/journal` reads SCRATCH.md as its source of truth and deletes it after writing the entry.
+- `/journal` reads SCRATCH.md as its source of truth and empty it after writing the entry.
 
 ## Style
 

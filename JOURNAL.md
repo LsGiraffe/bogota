@@ -4,6 +4,20 @@ Learning log for the bogota project — Rust, AI, and nand2tetris.
 
 ---
 
+## 2026-05-28
+
+### What was worked on
+
+Implemented `nand()` in `src/gates/elementary.rs` — truth table as a 4-case test first, then `!(a && b)`. TDD cycle confirmed: test panics on `todo!()`, passes after implementation.
+
+### Key insights
+
+`use super::*` in `#[cfg(test)]` modules is idiomatic Rust — the wildcard is scoped to a private, test-only block so the usual objections don't apply.
+
+### Next steps
+
+Build NOT, AND, OR, XOR in `elementary.rs` by composing calls to `nand()`.
+
 ## 2026-05-25
 
 ### What was worked on

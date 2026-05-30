@@ -14,7 +14,7 @@ Follow this process:
 ```
 
 Do not modify any existing entries.
-6. After successfully appending the entry, empty SCRATCH.md if it exists.
+6. After successfully appending the entry, empty SCRATCH.md.
 
 ---
 

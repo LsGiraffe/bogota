@@ -10,6 +10,10 @@ pub fn and(a: bool, b: bool) -> bool {
     not(nand(a, b))
 }
 
+pub fn or(a: bool, b: bool) -> bool {
+    nand(not(a), not(b))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -34,5 +38,13 @@ mod tests {
         assert_eq!(and(false, true), false);
         assert_eq!(and(true, false), false);
         assert_eq!(and(true, true), true);
+    }
+
+    #[test]
+    fn test_or() {
+        assert_eq!(or(false, false), false);
+        assert_eq!(or(false, true),  true);
+        assert_eq!(or(true,  false), true);
+        assert_eq!(or(true,  true),  true);
     }
 }

@@ -43,8 +43,8 @@ mod tests {
     #[test]
     fn test_or() {
         assert_eq!(or(false, false), false);
-        assert_eq!(or(false, true),  true);
-        assert_eq!(or(true,  false), true);
-        assert_eq!(or(true,  true),  true);
+        assert_eq!(or(false, true), true);
+        assert_eq!(or(true, false), true);
+        assert_eq!(or(true, true), true);
     }
 }

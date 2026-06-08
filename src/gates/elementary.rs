@@ -2,6 +2,10 @@ pub fn nand(a: bool, b: bool) -> bool {
     !(a && b)
 }
 
+pub fn not(a: bool) -> bool {
+    nand(a, a)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -12,5 +16,11 @@ mod tests {
         assert_eq!(nand(false, true), true);
         assert_eq!(nand(true, false), true);
         assert_eq!(nand(true, true), false);
+    }
+
+    #[test]
+    fn test_not() {
+        assert_eq!(not(false), true);
+        assert_eq!(not(true), false);
     }
 }

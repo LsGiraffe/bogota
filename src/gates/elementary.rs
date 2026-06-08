@@ -31,8 +31,8 @@ mod tests {
     #[test]
     fn test_and() {
         assert_eq!(and(false, false), false);
-        assert_eq!(and(false, true),  false);
-        assert_eq!(and(true,  false), false);
-        assert_eq!(and(true,  true),  true);
+        assert_eq!(and(false, true), false);
+        assert_eq!(and(true, false), false);
+        assert_eq!(and(true, true), true);
     }
 }

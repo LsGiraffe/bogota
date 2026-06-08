@@ -55,6 +55,8 @@ During each session, maintain `SCRATCH.md` at the project root as a running log:
 
 ## Commits
 
+Run `cargo fmt` before every commit.
+
 Use conventional commits: `type(scope): description`
 e.g. `feat(p1): implement NAND gate`, `fix(alu): correct half adder carry bit`
 

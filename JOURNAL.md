@@ -4,6 +4,23 @@ Learning log for the bogota project — Rust, AI, and nand2tetris.
 
 ---
 
+## 2026-06-08
+
+### What was worked on
+
+Implemented NOT, AND, and OR gates in `src/gates/elementary.rs`, each built exclusively
+from `nand()`. Three separate branches and PRs, one gate per cycle.
+
+### Key insights
+
+OR from NAND requires De Morgan's law: `OR(a, b) = NAND(NOT(a), NOT(b))`. The double
+negation collapses the implicit AND inside NAND, leaving a pure OR. All three gates
+follow naturally once you see that NAND is universal.
+
+### Next steps
+
+Continue with XOR, then move to MUX and DMUX in `mux.rs`.
+
 ## 2026-05-28
 
 ### What was worked on

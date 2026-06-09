@@ -4,6 +4,25 @@ Learning log for the bogota project — Rust, AI, and nand2tetris.
 
 ---
 
+## 2026-06-09
+
+### What was worked on
+
+Implemented XOR, MUX, DMUX, and NOT16 — each on its own branch and PR. XOR closes out
+`elementary.rs`; MUX and DMUX go into `mux.rs`; NOT16 opens `bus.rs`.
+
+### Key insights
+
+XOR is OR minus the AND case: `AND(OR(a, b), NAND(a, b))`. DMUX is the physical inverse
+of MUX — same gating logic but one input wire fanning out to two output wires rather than
+two input wires collapsing to one. The 16-bit gates are encapsulated components, not new
+logic: `not16` is 16 NOT gates wired in parallel inside a single named block, which is how
+chip designers actually place and reuse components on a die.
+
+### Next steps
+
+Continue `bus.rs` with AND16, OR16, OR8WAY, then move to `mux_multi.rs`.
+
 ## 2026-06-08
 
 ### What was worked on

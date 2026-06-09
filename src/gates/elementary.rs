@@ -14,6 +14,10 @@ pub fn or(a: bool, b: bool) -> bool {
     nand(not(a), not(b))
 }
 
+pub fn xor(a: bool, b: bool) -> bool {
+    and(or(a, b), nand(a, b))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -46,5 +50,13 @@ mod tests {
         assert_eq!(or(false, true), true);
         assert_eq!(or(true, false), true);
         assert_eq!(or(true, true), true);
+    }
+
+    #[test]
+    fn test_xor() {
+        assert_eq!(xor(false, false), false);
+        assert_eq!(xor(false, true), true);
+        assert_eq!(xor(true, false), true);
+        assert_eq!(xor(true, true), false);
     }
 }

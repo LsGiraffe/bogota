@@ -4,6 +4,30 @@ Learning log for the bogota project — Rust, AI, and nand2tetris.
 
 ---
 
+## 2026-06-10
+
+### What was worked on
+
+Implemented the full stage 2 arithmetic layer in `src/gates/arithmetic.rs`:
+`HalfAdder`, `FullAdder`, `Add16`, `Inc16`, and the `ALU` — each building
+on the one below it, all the way down to `nand()`.
+
+### Key insights
+
+The ALU is a 6-step pipeline controlled by boolean flags, not a named-operation
+selector. Every call sets all 6 flags — `false` means "pass through unchanged",
+`true` means "apply this transformation". The combination of all 6 determines
+the operation. This makes the CPU's job later purely mechanical: per instruction,
+set these 6 wires, read the output.
+
+The half adder is essentially only useful as a building block for the full adder
+(and as the carry-less first step in `add16`). The full adder chains two half
+adders, threading carry through — the same pattern `add16` scales to 16 bits.
+
+### Next steps
+
+Move on to stage 3 — memory chips (`Bit`, `Register`, `RAM`).
+
 ## 2026-06-09
 
 ### What was worked on

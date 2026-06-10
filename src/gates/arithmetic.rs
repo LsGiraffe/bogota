@@ -69,85 +69,157 @@ pub fn alu(
 mod tests {
     use super::*;
 
+    // All 18 canonical ALU operations from nand2tetris Figure 2.6
+    // x=3, y=5 throughout so arithmetic is easy to verify by hand
+    fn x() -> [bool; 16] {
+        from_i16(3)
+    }
+    fn y() -> [bool; 16] {
+        from_i16(5)
+    }
+
     #[test]
-    fn test_alu_out_zero() {
-        // zx=1,nx=0,zy=1,ny=0,f=1,no=0 → 0+0 = 0
-        let (out, zr, ng) = alu(
-            from_i16(7),
-            from_i16(3),
-            true,
-            false,
-            true,
-            false,
-            true,
-            false,
-        );
+    fn test_alu_zero() {
+        let (out, zr, ng) = alu(x(), y(), true, false, true, false, true, false);
         assert_eq!(to_i16(out), 0);
         assert_eq!(zr, true);
         assert_eq!(ng, false);
     }
 
     #[test]
-    fn test_alu_out_one() {
-        // zx=1,nx=1,zy=1,ny=1,f=1,no=1 → 1
-        let (out, zr, ng) = alu(from_i16(0), from_i16(0), true, true, true, true, true, true);
+    fn test_alu_one() {
+        let (out, zr, ng) = alu(x(), y(), true, true, true, true, true, true);
         assert_eq!(to_i16(out), 1);
         assert_eq!(zr, false);
         assert_eq!(ng, false);
     }
 
     #[test]
-    fn test_alu_add() {
-        // zx=0,nx=0,zy=0,ny=0,f=1,no=0 → x+y
-        let (out, zr, ng) = alu(
-            from_i16(17),
-            from_i16(3),
-            false,
-            false,
-            false,
-            false,
-            true,
-            false,
-        );
-        assert_eq!(to_i16(out), 20);
+    fn test_alu_neg_one() {
+        let (out, zr, ng) = alu(x(), y(), true, true, true, false, true, false);
+        assert_eq!(to_i16(out), -1);
+        assert_eq!(zr, false);
+        assert_eq!(ng, true);
+    }
+
+    #[test]
+    fn test_alu_x() {
+        let (out, zr, ng) = alu(x(), y(), false, false, true, true, false, false);
+        assert_eq!(to_i16(out), 3);
         assert_eq!(zr, false);
         assert_eq!(ng, false);
     }
 
     #[test]
-    fn test_alu_and() {
-        // zx=0,nx=0,zy=0,ny=0,f=0,no=0 → x&y
-        let (out, zr, ng) = alu(
-            from_i16(0b1100),
-            from_i16(0b1010),
-            false,
-            false,
-            false,
-            false,
-            false,
-            false,
-        );
-        assert_eq!(to_i16(out), 0b1000);
+    fn test_alu_y() {
+        let (out, zr, ng) = alu(x(), y(), true, true, false, false, false, false);
+        assert_eq!(to_i16(out), 5);
         assert_eq!(zr, false);
         assert_eq!(ng, false);
     }
 
     #[test]
-    fn test_alu_neg_flag() {
-        // zx=0,nx=0,zy=1,ny=0,f=1,no=0 → x+0 = x, and x is negative
-        let (out, zr, ng) = alu(
-            from_i16(-5),
-            from_i16(0),
-            false,
-            false,
-            true,
-            false,
-            true,
-            false,
-        );
+    fn test_alu_not_x() {
+        let (out, zr, ng) = alu(x(), y(), false, false, true, true, false, true);
+        assert_eq!(to_i16(out), !3i16);
+        assert_eq!(zr, false);
+        assert_eq!(ng, true);
+    }
+
+    #[test]
+    fn test_alu_not_y() {
+        let (out, zr, ng) = alu(x(), y(), true, true, false, false, false, true);
+        assert_eq!(to_i16(out), !5i16);
+        assert_eq!(zr, false);
+        assert_eq!(ng, true);
+    }
+
+    #[test]
+    fn test_alu_neg_x() {
+        let (out, zr, ng) = alu(x(), y(), false, false, true, true, true, true);
+        assert_eq!(to_i16(out), -3);
+        assert_eq!(zr, false);
+        assert_eq!(ng, true);
+    }
+
+    #[test]
+    fn test_alu_neg_y() {
+        let (out, zr, ng) = alu(x(), y(), true, true, false, false, true, true);
         assert_eq!(to_i16(out), -5);
         assert_eq!(zr, false);
         assert_eq!(ng, true);
+    }
+
+    #[test]
+    fn test_alu_x_plus_1() {
+        let (out, zr, ng) = alu(x(), y(), false, true, true, true, true, true);
+        assert_eq!(to_i16(out), 4);
+        assert_eq!(zr, false);
+        assert_eq!(ng, false);
+    }
+
+    #[test]
+    fn test_alu_y_plus_1() {
+        let (out, zr, ng) = alu(x(), y(), true, true, false, true, true, true);
+        assert_eq!(to_i16(out), 6);
+        assert_eq!(zr, false);
+        assert_eq!(ng, false);
+    }
+
+    #[test]
+    fn test_alu_x_minus_1() {
+        let (out, zr, ng) = alu(x(), y(), false, false, true, true, true, false);
+        assert_eq!(to_i16(out), 2);
+        assert_eq!(zr, false);
+        assert_eq!(ng, false);
+    }
+
+    #[test]
+    fn test_alu_y_minus_1() {
+        let (out, zr, ng) = alu(x(), y(), true, true, false, false, true, false);
+        assert_eq!(to_i16(out), 4);
+        assert_eq!(zr, false);
+        assert_eq!(ng, false);
+    }
+
+    #[test]
+    fn test_alu_x_plus_y() {
+        let (out, zr, ng) = alu(x(), y(), false, false, false, false, true, false);
+        assert_eq!(to_i16(out), 8);
+        assert_eq!(zr, false);
+        assert_eq!(ng, false);
+    }
+
+    #[test]
+    fn test_alu_x_minus_y() {
+        let (out, zr, ng) = alu(x(), y(), false, true, false, false, true, true);
+        assert_eq!(to_i16(out), -2);
+        assert_eq!(zr, false);
+        assert_eq!(ng, true);
+    }
+
+    #[test]
+    fn test_alu_y_minus_x() {
+        let (out, zr, ng) = alu(x(), y(), false, false, false, true, true, true);
+        assert_eq!(to_i16(out), 2);
+        assert_eq!(zr, false);
+        assert_eq!(ng, false);
+    }
+
+    #[test]
+    fn test_alu_x_and_y() {
+        let (out, zr, ng) = alu(x(), y(), false, false, false, false, false, false);
+        assert_eq!(to_i16(out), 3 & 5);
+        assert_eq!(zr, false);
+        assert_eq!(ng, false);
+    }
+
+    #[test]
+    fn test_alu_x_or_y() {
+        let (out, zr, ng) = alu(x(), y(), false, true, false, true, false, true);
+        assert_eq!(to_i16(out), 3 | 5);
+        assert_eq!(zr, false);
+        assert_eq!(ng, false);
     }
 
     #[test]

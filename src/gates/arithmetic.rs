@@ -32,6 +32,7 @@ pub fn inc16(a: [bool; 16]) -> [bool; 16] {
     add16(a, one)
 }
 
+#[allow(clippy::too_many_arguments)]
 pub fn alu(
     x: [bool; 16],
     y: [bool; 16],

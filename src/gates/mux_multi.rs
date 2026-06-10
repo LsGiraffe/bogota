@@ -1,8 +1,23 @@
 use super::bus::mux16;
 use super::elementary::or;
+use super::mux::dmux;
 
 pub fn or8way(input: [bool; 8]) -> bool {
     input.iter().copied().reduce(or).unwrap()
+}
+
+pub fn dmux4way(input: bool, sel: [bool; 2]) -> (bool, bool, bool, bool) {
+    let (lo, hi) = dmux(input, sel[1]);
+    let (a, b) = dmux(lo, sel[0]);
+    let (c, d) = dmux(hi, sel[0]);
+    (a, b, c, d)
+}
+
+pub fn dmux8way(input: bool, sel: [bool; 3]) -> (bool, bool, bool, bool, bool, bool, bool, bool) {
+    let (lo, hi) = dmux(input, sel[2]);
+    let (a, b, c, d) = dmux4way(lo, [sel[0], sel[1]]);
+    let (e, f, g, h) = dmux4way(hi, [sel[0], sel[1]]);
+    (a, b, c, d, e, f, g, h)
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -38,6 +53,58 @@ pub fn mux8way16(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_dmux4way() {
+        assert_eq!(
+            dmux4way(false, [false, false]),
+            (false, false, false, false)
+        );
+        assert_eq!(dmux4way(true, [false, false]), (true, false, false, false));
+        assert_eq!(dmux4way(true, [true, false]), (false, true, false, false));
+        assert_eq!(dmux4way(true, [false, true]), (false, false, true, false));
+        assert_eq!(dmux4way(true, [true, true]), (false, false, false, true));
+    }
+
+    #[test]
+    fn test_dmux8way() {
+        assert_eq!(
+            dmux8way(false, [false, false, false]),
+            (false, false, false, false, false, false, false, false)
+        );
+        assert_eq!(
+            dmux8way(true, [false, false, false]),
+            (true, false, false, false, false, false, false, false)
+        );
+        assert_eq!(
+            dmux8way(true, [true, false, false]),
+            (false, true, false, false, false, false, false, false)
+        );
+        assert_eq!(
+            dmux8way(true, [false, true, false]),
+            (false, false, true, false, false, false, false, false)
+        );
+        assert_eq!(
+            dmux8way(true, [true, true, false]),
+            (false, false, false, true, false, false, false, false)
+        );
+        assert_eq!(
+            dmux8way(true, [false, false, true]),
+            (false, false, false, false, true, false, false, false)
+        );
+        assert_eq!(
+            dmux8way(true, [true, false, true]),
+            (false, false, false, false, false, true, false, false)
+        );
+        assert_eq!(
+            dmux8way(true, [false, true, true]),
+            (false, false, false, false, false, false, true, false)
+        );
+        assert_eq!(
+            dmux8way(true, [true, true, true]),
+            (false, false, false, false, false, false, false, true)
+        );
+    }
 
     #[test]
     fn test_or8way() {

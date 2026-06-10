@@ -5,6 +5,7 @@ pub fn or8way(input: [bool; 8]) -> bool {
     input.iter().copied().reduce(or).unwrap()
 }
 
+#[allow(clippy::too_many_arguments)]
 pub fn mux4way16(
     a: [bool; 16],
     b: [bool; 16],
@@ -17,6 +18,7 @@ pub fn mux4way16(
     mux16(ab, cd, sel[1])
 }
 
+#[allow(clippy::too_many_arguments)]
 pub fn mux8way16(
     a: [bool; 16],
     b: [bool; 16],
